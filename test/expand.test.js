@@ -22,17 +22,17 @@ test('skips falsy objects', async () => {
   deepStrictEqual(await expandTasks(tasks), tasks)
 })
 
+test('skips a task with multiple entry points', async () => {
+  const tasks = { entryPoints: ['index.ts', 'test.ts'], outfile: 'test.js' }
+  strictEqual(await expandTasks(tasks), tasks)
+})
+
 test('applies build options', async () => {
   deepStrictEqual(await expandTasks({
     entryPoints: ['index.ts']
   }, { watch: true, verbose: true }), {
     entryPoints: ['index.ts'], watch: true, logLevel: 'debug'
   })
-})
-
-test('skips a task with multiple entry points', async () => {
-  const tasks = { entryPoints: ['index.ts', 'test.ts'], outfile: 'test.js' }
-  strictEqual(await expandTasks(tasks), tasks)
 })
 
 test('finds files matching a pattern', async () => {
@@ -65,6 +65,16 @@ test('filters files with inconsistent placeholder values', async () => {
       outdir: 'dist/second'
     }
   ])
+})
+
+test('does not create unnecessary arrays of tasks', async () => {
+  deepStrictEqual(await expandTasks({
+    entryPoints: ['test/expand/components/first/[name].test.ts'],
+    outfile: 'dist/[name].test.js'
+  }), {
+    entryPoints: ['test/expand/components/first/first.test.ts'],
+    outfile: 'dist/first.test.js'
+  })
 })
 
 test('supports parallel lists of tasks', async () => {
