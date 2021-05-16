@@ -76,7 +76,7 @@ test('does not create unnecessary arrays of tasks', async () => {
   })
 })
 
-test('supports parallel lists of tasks', async () => {
+test('supports explicit parallel lists of tasks', async () => {
   deepStrictEqual(await expandTasks({
     parallel: true,
     tasks: [{
@@ -84,6 +84,25 @@ test('supports parallel lists of tasks', async () => {
       outfile: 'dist/[name].js'
     }]
   }), {
+    parallel: true,
+    tasks: [
+      {
+        entryPoints: ['test/expand/components/first/first.test.ts'],
+        outfile: 'dist/first.test.js'
+      },
+      {
+        entryPoints: ['test/expand/components/first/first.ts'],
+        outfile: 'dist/first.js'
+      }
+    ]
+  })
+})
+
+test('supports automatic parallel lists of tasks', async () => {
+  deepStrictEqual(await expandTasks([{
+    entryPoints: ['test/expand/components/first/[name].ts'],
+    outfile: 'dist/[name].js'
+  }]), {
     parallel: true,
     tasks: [
       {
