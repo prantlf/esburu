@@ -26,4 +26,4 @@ export function findTasks(path: string, depth?: integer): Promise<string>
 export function loadTasks(path: string): Promise<Tasks>
 export function expandTasks(config: Tasks, opts?: RunOpts): Promise<Tasks>
 export function runTasks(config: Tasks, opts?: RunOpts): Promise<void>
-export function performTasks(path: string, opts?: PerformOpts): Promise<void>
+export function performTasks(config: string | object, opts?: PerformOpts): Promise<void>
