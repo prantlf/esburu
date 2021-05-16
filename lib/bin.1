@@ -27,7 +27,10 @@ estar - ESBuild Task Runner
 .SH DESCRIPTION
 Runs esbuild tasks from a configuration file. Reduces the command-line and configuration duplication in projects with multile build targets. Supports parallel execution.
 
-The current directory will be switched to the location of the config file before running the build tasks. The default parallelism is the count of CPUs. Command-line arguments past "--" will be ignored. They can be used by the code in the configuration file.
+The current directory will be switched to the location of the config file before running the build tasks. The default parallelism is the count of CPUs. Command-line arguments past
+.B
+--
+will be ignored. They can be used by the code in the configuration file.
 
 .SH OPTIONS
 .B
