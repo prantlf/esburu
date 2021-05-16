@@ -15,27 +15,27 @@ function names() {
 }
 
 test('runs a few tasks together', async () => {
-  let result = {}
+  let results = {}
   let batches = 0
   await parallelize([
-    () => result.a = true,
-    () => result.b = true
+    () => results.a = true,
+    () => results.b = true
   ], set => {
     strictEqual(set.length, 2)
     ++batches
   }, 2)
   strictEqual(batches, 1)
-  deepStrictEqual(result, { a: true, b: true })
+  deepStrictEqual(results, { a: true, b: true })
 })
 
 test('runs many tasks in batches', async () => {
   const tasks = names()
-  let result = {}
+  let results = {}
   let batches = 0
   await parallelize(
-    tasks.map(task => () => result[task] = true),
+    tasks.map(task => () => results[task] = true),
     () => ++batches)
   ok(batches > 1)
-  deepStrictEqual(result, tasks.reduce(
+  deepStrictEqual(results, tasks.reduce(
     (result, task) => { result[task] = true; return result }, {}))
 })

@@ -16,10 +16,9 @@ test('skips multiple tasks with no placeholders', async () => {
 })
 
 test('skips falsy objects', async () => {
-  const tasks = [
-    { entryPoints: ['index.ts'], outdir: 'dist' }, false
-  ]
-  deepStrictEqual(await expandTasks(tasks), tasks)
+  const task = { entryPoints: ['index.ts'], outdir: 'dist' }
+  const tasks = [task, false]
+  deepStrictEqual(await expandTasks(tasks), [task])
 })
 
 test('skips a task with multiple entry points', async () => {
