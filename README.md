@@ -21,6 +21,18 @@ Let us assume the following project structure with two components and their test
         ├── second.ts
         └── second.test.ts
 
+With the output files created in the following locations:
+
+    dist/
+    ├── first.js
+    └── second.js
+
+    src/
+    ├── first
+    │   └── first.test.js
+    └── second
+        └── second.test.js
+
 The build script usually contains commands for building each component and each test:
 
     esbuild --bundle --outfile=dist/first.js src/first/first.ts
@@ -76,11 +88,11 @@ Run esbuild tasks from a configuration file:
     -V|--version                print the version number and exit
     -h|--help                   print usage instructions and exit
 
-If no config file is provided, "estar.config.js" will be loaded by default.
+If no config file is provided, `estar.config.js` will be loaded by default.
 The file will be looked for in the current directory and then in the
 ancestors. The maximum depth is 10 by default. The current directory will
 be switched to the location of the config file. The default parallelism is
-the count of CPUs. Command-line arguments past "--" will be ignored.
+the count of CPUs. Command-line arguments past `--` will be ignored.
 
 ### Examples
 
@@ -89,7 +101,7 @@ the count of CPUs. Command-line arguments past "--" will be ignored.
 
 ## Parallelism
 
-If you pass the build tasks in an object `{ parallel, tasks }` instead of an array, they will be executed in parallel instead of sequentially.
+If you pass the build tasks in an object `{ parallel, tasks }` instead of an array, they will be executed in parallel instead of sequentially:
 
 ```js
 modules.exports = {
@@ -109,7 +121,7 @@ modules.exports = {
 }
 ```
 
-You can nest sequential and parallel lists of build tasks too. An object `{ parallel, tasks }` can be used as a build task on any level:
+You can nest sequential and parallel lists of build tasks too. An array of tasks or an object `{ parallel, tasks }` can be used instead of a build task object on any level:
 
 ```js
 modules.exports = [
@@ -195,6 +207,37 @@ const test = args.includes('test')
 
 modules.exports = { ... }
 ```
+
+## API
+
+The build can be started programmatically too:
+
+```js
+const { performTasks } = require('estar')
+
+const tasks = [
+  {
+    entryPoints: ['src/[name]/[name].ts'],
+    outfile: 'dist/[name].js',
+    bundle: true
+  }
+]
+
+performTasks(tasks, { parallelDefault: true })
+  .catch(({ config, errors, message, stack }) => {
+    if (config) // loading the configuration failed in JS parsing
+      console.error(stack)
+    else if (!errors) // esbuild itself prints errors on the console
+      console.error(message)
+    process.exitCode = 1
+  })
+```
+
+### performTasks(config?: string | object, opts?: object): Promise
+
+Preforms a complete build using either a configuration file path or an object with the build configuration from the `config` argument. The `opts` argument supports all [parameters recognised by the command-line tool](#options).
+
+Do not run more builds in a single process. Once the [esbuild] module is loaded, it stays set to the same working directory. You would not be able to use paths relative to the directory of the configuration file in those files, if those files are located in different directories.
 
 ## Contributing
 
