@@ -1,6 +1,6 @@
 {
   "name": "esburu",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Runs esbuild tasks from a configuration file.",
   "homepage": "https://github.com/prantlf/esburu#readme",
   "author": {
