@@ -1,9 +1,9 @@
 ## ESBuild Task Runner
 
-[![NPM version](https://badge.fury.io/js/estar.png)](http://badge.fury.io/js/estar)
-[![Build Status](https://github.com/prantlf/estar/workflows/Test/badge.svg)](https://github.com/prantlf/estar/actions)
-[![Dependency Status](https://david-dm.org/prantlf/estar.svg)](https://david-dm.org/prantlf/estar)
-[![devDependency Status](https://david-dm.org/prantlf/estar/dev-status.svg)](https://david-dm.org/prantlf/estar#info=devDependencies)
+[![NPM version](https://badge.fury.io/js/esburu.png)](http://badge.fury.io/js/esburu)
+[![Build Status](https://github.com/prantlf/esburu/workflows/Test/badge.svg)](https://github.com/prantlf/esburu/actions)
+[![Dependency Status](https://david-dm.org/prantlf/esburu.svg)](https://david-dm.org/prantlf/esburu)
+[![devDependency Status](https://david-dm.org/prantlf/esburu/dev-status.svg)](https://david-dm.org/prantlf/esburu#info=devDependencies)
 
 Runs [esbuild] tasks from a configuration file. Reduces the command-line and configuration duplication in projects with multile build targets. Supports parallel execution.
 
@@ -40,7 +40,7 @@ The build script usually contains commands for building each component and each 
     esbuild --bundle --outfile=src/first/first.test.js src/first/first.test.ts
     esbuild --bundle --outfile=src/second/second.test.js src/second/second.test.ts
 
-The sequence of commands with options for building components and their tests, which is difficult to maintain in `scripts` in `package.json`, can be simplified by creating `estar.config.js`, which will be processed just by executing `estar`:
+The sequence of commands with options for building components and their tests, which is difficult to maintain in `scripts` in `package.json`, can be simplified by creating `esburu.config.js`, which will be processed just by executing `esburu`:
 
 ```js
 modules.exports = [
@@ -64,16 +64,16 @@ Only [`entryPoints` property] with a single source file is supported. The name p
 You can install this package using your favourite Node.js package manager, including the peer dependency on [esbuild]:
 
 ```sh
-npm i -D estar esbuild
-yarn add -D estar esbuild
-pnpm i -D estar esbuild
+npm i -D esburu esbuild
+yarn add -D esburu esbuild
+pnpm i -D esburu esbuild
 ```
 
 ## Usage
 
 Run esbuild tasks from a configuration file:
 
-    estar [option ...] [-- arg ...]
+    esburu [option ...] [-- arg ...]
 
 ### Options
 
@@ -88,7 +88,7 @@ Run esbuild tasks from a configuration file:
     -V|--version                print the version number and exit
     -h|--help                   print usage instructions and exit
 
-If no config file is provided, `estar.config.js` will be loaded by default.
+If no config file is provided, `esburu.config.js` will be loaded by default.
 The file will be looked for in the current directory and then in the
 ancestors. The maximum depth is 10 by default. The current directory will
 be switched to the location of the config file. The default parallelism is
@@ -96,8 +96,8 @@ the count of CPUs. Command-line arguments past `--` will be ignored.
 
 ### Examples
 
-    estar -pw
-    estar -c estar.test.js
+    esburu -pw
+    esburu -c esburu.test.js
 
 ## Parallelism
 
@@ -154,7 +154,7 @@ modules.exports = [
 You can switch the execution of task sequences to be parallel by default using the option `-p` (`--parallel-default`):
 
 ```js
-// Run with `estar -p`
+// Run with `esburu -p`
 modules.exports = [
   {
     entryPoints: ['src/index.ts'],
@@ -191,16 +191,16 @@ modules.exports = {
 
 ## Arguments
 
-The configuration file can access command-line arguments passed to the `estar` process. The arguments after "--" are ignored by the build execution, and they can be used in the build configuration module for conditional behaviour.
+The configuration file can access command-line arguments passed to the `esburu` process. The arguments after "--" are ignored by the build execution, and they can be used in the build configuration module for conditional behaviour.
 
 For example, a standard parameter "watch" and a custom one "test" can be added to the command line:
 
-    estar --watch -- test
+    esburu --watch -- test
 
 And its presence can be checked in the build configuration module:
 
 ```js
-const { getOpts } = require('estar/lib/util')
+const { getOpts } = require('esburu/lib/util')
 
 const { watch, args } = getOpts()
 const test = args.includes('test')
@@ -213,7 +213,7 @@ modules.exports = { ... }
 The build can be started programmatically too:
 
 ```js
-const { performTasks } = require('estar')
+const { performTasks } = require('esburu')
 
 const tasks = [
   {

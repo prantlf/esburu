@@ -1,10 +1,10 @@
-.TH estar "1" "May 16, 2021" "" "estar manual"
+.TH esburu "1" "May 16, 2021" "" "esburu manual"
 
 .SH NAME
-estar - ESBuild Task Runner
+esburu - ESBuild Task Runner
 
 .SH SYNOPSIS
-.B estar
+.B esburu
 [-c|--config
 .I file
 ] [-D|--depth
@@ -37,7 +37,7 @@ will be ignored. They can be used by the code in the configuration file.
 .IP "-c|--config file"
 Load the configuration from an alternative file. If no config file is provided,
 .B
-estar.config.js
+esburu.config.js
 will be loaded by default. The file will be looked for in the current directory and then in the
 ancestors.
 .B
@@ -71,7 +71,7 @@ to all task configurations.
 .IP "-d|--[no-]debug"
 Enable debugging output on stderr. The same effect can be achieved by setting the environment variable
 .B
-DEBUG=estar
+DEBUG=esburu
 \&.
 .B
 .IP "-V|--version"
@@ -82,17 +82,17 @@ Print usage instructions and exit.
 
 .SH EXAMPLES
 .B
-.IP "estar -pw"
+.IP "esburu -pw"
 Run a build preferring parallel execution of the build tasks and stay wunning to re-build the project whenever a source file changes.
 .B
-.IP "estar -c estar.test.js"
+.IP "esburu -c esburu.test.js"
 Run a build with custom configuration file.
 
 .SH BUGS
-estar's bug tracker is located at <https://github.com/prantlf/estar/issues>
+esburu's bug tracker is located at <https://github.com/prantlf/esburu/issues>
 
 .SH DOCUMENTATION
-See the website for documentation <https://github.com/prantlf/estar#readme>
+See the website for documentation <https://github.com/prantlf/esburu#readme>
 
 .SH AUTHOR
 Currently maintained by Ferdinand Prantl <prantlf@gmail.com>

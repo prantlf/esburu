@@ -4,11 +4,11 @@ const performTasks = require('../lib/tasks/perform')
 const { clearBuilds, getBuilds } = require('./run/esbuild')
 
 const opts = { esbuild: `${__dirname}/run/esbuild` }
-const config = require('./run/estar.config')
+const config = require('./run/esburu.config')
 
 test('performs a build with a config file', async () => {
   clearBuilds()
-  await performTasks('test/run/estar.config.js', opts)
+  await performTasks('test/run/esburu.config.js', opts)
   deepStrictEqual(getBuilds(), [config])
 })
 
