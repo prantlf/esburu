@@ -57,8 +57,6 @@ modules.exports = [
 ]
 ```
 
-Only [`entryPoints` property] with a single source file is supported. The name placeholders from the [`entryPoints` property] are replaced with `*` and looked for in the local file system. One build task is added for each matched file. Placeholders in the [`outfile` property] or the [`outdir` property] will be replaced with the values from the [`entryPoints` property].
-
 ## Installation
 
 You can install this package using your favourite Node.js package manager, including the peer dependency on [esbuild]:
@@ -88,16 +86,44 @@ Run esbuild tasks from a configuration file:
     -V|--version                print the version number and exit
     -h|--help                   print usage instructions and exit
 
-If no config file is provided, `esburu.config.js` will be loaded by default.
-The file will be looked for in the current directory and then in the
-ancestors. The maximum depth is 10 by default. The current directory will
-be switched to the location of the config file. The default parallelism is
-the count of CPUs. Command-line arguments past `--` will be ignored.
+Command-line arguments past `--` will be ignored.
 
 ### Examples
 
     esburu -pw
     esburu -c esburu.test.js
+
+### Configuration
+
+If no config file is provided, `esburu.config.js` will be looked for by default.
+If not found in the current directory, the search will continue to its ancestors with the default maximum depth of 10 directories.
+
+Before the tasks get executed the current directory of the build process will
+be switched to the location of the config file, so that the file paths in the config file can be relative to it, regardless in what directory was `esburu` started.
+
+All [simple] and [advanced] options of [esbuild] can be used in a task object.
+
+```js
+modules.exports = [
+  {
+    entryPoints: ['src/index.ts'],
+    outfile: 'dist/index.js',
+    bundle: true
+  }
+]
+```
+
+Only [`entryPoints` property] with a single source file is supported. The path expansion will not take place if there are more entry points in a task. The name placeholders from the [`entryPoints` property] are replaced with `*` and looked for in the local file system. One build task will be added for each matched file. Placeholders in the [`outfile` property] or the [`outdir` property] will be replaced with the values from the [`entryPoints` property].
+
+```js
+modules.exports = [
+  {
+    entryPoints: ['src/[name].ts'],
+    outfile: 'dist/[name].js',
+    bundle: true
+  }
+]
+```
 
 ## Parallelism
 
@@ -113,9 +139,9 @@ modules.exports = {
       bundle: true
     },
     {
-      entryPoints: ['src/[name]/[name].ts'],
-      outfile: 'dist/[name].js',
-      bundle: true
+      entryPoints: ['src/index.ts'],
+      outfile: 'dist/index.min.js',
+      bundle: true, minify: true
     }
   ]
 }
@@ -134,8 +160,8 @@ modules.exports = [
         bundle: true
       },
       {
-        entryPoints: ['src/[name]/[name].ts'],
-        outfile: 'dist/[name].js',
+        entryPoints: ['src/index.ts'],
+        outfile: 'dist/index.min.js',
         bundle: true
       }
     ]
@@ -143,8 +169,8 @@ modules.exports = [
   {
     parallel: true,
     tasks: [{
-      entryPoints: ['src/[name]/[name].test.ts'],
-      outfile: 'src/[name]/[name].test.js',
+      entryPoints: ['test/index.ts'],
+      outfile: 'test/index.js',
       bundle: true
     }]
   }
@@ -162,14 +188,31 @@ modules.exports = [
     bundle: true
   },
   {
-    entryPoints: ['src/[name]/[name].ts'],
-    outfile: 'dist/[name].js',
-    bundle: true
+    entryPoints: ['src/index.ts'],
+    outfile: 'dist/index.min.js',
+    bundle: true, minify: true
   }
 ]
 ```
 
-You can enforce the sequential execution for a specific list of tasks too:
+Build tasks added by expanding the file path placeholders will be also executed in parallel if you wrap them as single object in an array, as a shorter-syntax alternative to `{ parallel, tasks }`:
+
+```js
+modules.exports = [
+  {
+    entryPoints: ['src/index.ts'],
+    outfile: 'dist/index.js',
+    bundle: true
+  },
+  [{ // all src/comp/*.ts will be built in parallel
+    entryPoints: ['src/comp/[name].ts'],
+    outfile: 'dist/[name].js',
+    bundle: true, minify: true
+  }]
+]
+```
+
+The automatic parallelisation can be suppressed by setting the `parallelDefault` option to `false` explicitly (`-no-p`, `--no-parallel-default`). If the default parallelisation needs to be applied globally, only not affecting selected tasks, you can enforce the sequential execution for a specific task list:
 
 ```js
 modules.exports = {
@@ -188,6 +231,8 @@ modules.exports = {
   ]
 }
 ```
+
+The default task execution parallelism is set to the count of CPUs, [as reported by Node.js](https://nodejs.org/api/os.html#os_os_cpus).
 
 ## Arguments
 
@@ -253,5 +298,5 @@ Licensed under the MIT license.
 [`entryPoints` property]: https://esbuild.github.io/api/#entry-points
 [`outfile` property]: https://esbuild.github.io/api/#outfile
 [`outdir` property]: https://esbuild.github.io/api/#outdir
-https://esbuild.github.io/api/#simple-options
-https://esbuild.github.io/api/#advanced-options
+[simple]: https://esbuild.github.io/api/#simple-options
+[advanced]: https://esbuild.github.io/api/#advanced-options
