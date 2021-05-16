@@ -1,6 +1,6 @@
 {
   "name": "estar",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Runs esbuild tasks from a configuration file.",
   "homepage": "https://github.com/prantlf/estar#readme",
   "author": {
