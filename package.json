@@ -1,0 +1,74 @@
+{
+  "name": "estar",
+  "version": "0.0.1",
+  "description": "Runs esbuild tasks from a configuration file.",
+  "homepage": "https://github.com/prantlf/estar#readme",
+  "author": {
+    "name": "Ferdinand Prantl",
+    "email": "prantlf@gmail.com",
+    "url": "http://prantl.tk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prantlf/estar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/prantlf/estar/issues"
+  },
+  "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/prantlf/estar/blob/master/LICENSE"
+    }
+  ],
+  "engines": {
+    "node": ">=12"
+  },
+  "bin": {
+    "estar": "lib/bin.js"
+  },
+  "man": "lib/bin.1",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "check": "teru test/*.test.js",
+    "test": "c8 teru test/*.test.js"
+  },
+  "c8": {
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "check-coverage": true,
+    "branches": 100,
+    "lines": 100,
+    "functions": 100,
+    "statements": 100
+  },
+  "dependencies": {
+    "debug": "^4.3.1",
+    "tiny-glob": "^0.2.9"
+  },
+  "peerDependencies": {
+    "esbuild": "^0.11.21"
+  },
+  "devDependencies": {
+    "c8": "^7.7.2",
+    "esbuild": "^0.11.21",
+    "tehanu": "^0.0.3",
+    "tehanu-repo-coco": "^0.0.2",
+    "tehanu-teru": "^0.0.2"
+  },
+  "keywords": [
+    "esbuild",
+    "configuration",
+    "task-runner",
+    "runner",
+    "builder",
+    "bundler"
+  ]
+}

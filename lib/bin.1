@@ -1,0 +1,95 @@
+.TH estar "1" "May 16, 2021" "" "estar manual"
+
+.SH NAME
+estar - ESBuild Task Runner
+
+.SH SYNOPSIS
+.B estar
+[-c|--config
+.I file
+] [-D|--depth
+.I number
+] [-e|--esbuild
+.I name
+]
+.RS
+[-P|--parallelism
+.I count
+]
+.br
+[-p|--[no-]parallel-default]
+.br
+[-w|--[no-]watch] [-v|--[no-]verbose] [-d|--[no-]debug]
+.br
+[-V|--version] [-h|--help] [-- arg ...]
+.RE
+
+.SH DESCRIPTION
+Runs esbuild tasks from a configuration file. Reduces the command-line and configuration duplication in projects with multile build targets. Supports parallel execution.
+
+The current directory will be switched to the location of the config file before running the build tasks. The default parallelism is the count of CPUs. Command-line arguments past "--" will be ignored. They can be used by the code in the configuration file.
+
+.SH OPTIONS
+.B
+.IP "-c|--config file"
+Load the configuration from an alternative file. If no config file is provided,
+.B
+estar.config.js
+will be loaded by default. The file will be looked for in the current directory and then in the
+ancestors.
+.B
+.IP "-D|--depth number"
+Maximum directory depth to look for the config. The depth of 10 ancestors is the default.
+.B
+.IP "-e|--esbuild name"
+Alternative name of the esbuild module to use instead of the default
+.B
+esbuild
+\&.
+.B
+.IP "-P|--parallelism <count"
+Maximum count of tasks running in parallel, if the parallel execution is enabled.
+.B
+.IP "-p|--[no-]parallel-default"
+Txecute task sequences entered as arrays of objects in parallel by default.
+.B
+.IP "-w|--[no-]watch"
+Stay running and watch for source file changes. This adds
+.B
+watch: true
+to all task configurations.
+.B
+.IP "-v|--[no-]verbose"
+Increase verbosity of the console output. This adds
+.B
+logLevel: 'debug'
+to all task configurations.
+.B
+.IP "-d|--[no-]debug"
+Enable debugging output on stderr. The same effect can be achieved by setting the environment variable
+.B
+DEBUG=estar
+\&.
+.B
+.IP "-V|--version"
+Print the version number and exit.
+.B
+.IP "-h|--help"
+Print usage instructions and exit.
+
+.SH EXAMPLES
+.B
+.IP "estar -pw"
+Run a build preferring parallel execution of the build tasks and stay wunning to re-build the project whenever a source file changes.
+.B
+.IP "estar -c estar.test.js"
+Run a build with custom configuration file.
+
+.SH BUGS
+estar's bug tracker is located at <https://github.com/prantlf/estar/issues>
+
+.SH DOCUMENTATION
+See the website for documentation <https://github.com/prantlf/estar#readme>
+
+.SH AUTHOR
+Currently maintained by Ferdinand Prantl <prantlf@gmail.com>
