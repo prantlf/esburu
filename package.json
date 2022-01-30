@@ -1,6 +1,6 @@
 {
   "name": "esburu",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Runs esbuild tasks from a configuration file.",
   "homepage": "https://github.com/prantlf/esburu#readme",
   "author": {
@@ -49,7 +49,7 @@
     "functions": 100,
     "statements": 100
   },
-    "release": {
+  "release": {
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
