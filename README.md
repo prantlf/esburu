@@ -1,9 +1,9 @@
 ## ESBuild Task Runner
 
-[![NPM version](https://badge.fury.io/js/esburu.png)](http://badge.fury.io/js/esburu)
-[![Build Status](https://github.com/prantlf/esburu/workflows/Test/badge.svg)](https://github.com/prantlf/esburu/actions)
-[![Dependency Status](https://david-dm.org/prantlf/esburu.svg)](https://david-dm.org/prantlf/esburu)
-[![devDependency Status](https://david-dm.org/prantlf/esburu/dev-status.svg)](https://david-dm.org/prantlf/esburu#info=devDependencies)
+[![Latest version](https://img.shields.io/npm/v/esburu)
+ ![Dependency status](https://img.shields.io/librariesio/release/npm/esburu)
+](https://www.npmjs.com/package/esburu)
+[![codecov](https://codecov.io/gh/prantlf/esburu/branch/master/graph/badge.svg)](https://codecov.io/gh/prantlf/esburu)
 
 Runs [esbuild] tasks from a configuration file. Reduces the command-line and configuration duplication in projects with multile build targets. Supports parallel execution.
 
